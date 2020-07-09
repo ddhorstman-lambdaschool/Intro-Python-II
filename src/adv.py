@@ -63,8 +63,10 @@ def clear():
     else:
         os.system('clear')
 
+
 def print_err(text):
     print(f"\033[91m{text}\033[00m")
+
 
 instructions = ("What would you like to do?\n"
                 "You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n"
@@ -80,7 +82,7 @@ clear()
 
 # Main loop
 while True:
-    print(player.location)
+    print(player.location, "\n")
     player_input = input(instructions)
 
     if player_input is "q":
