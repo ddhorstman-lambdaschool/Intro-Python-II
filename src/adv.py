@@ -9,25 +9,38 @@ import platform
 # Declare all the rooms
 rooms = {
     'outside': Room("Outside Cave Entrance",
-                    "North of you, the cave mount beckons"),
+                    "North of you, the cave mount beckons"
+                    ),
 
     'foyer': Room("Foyer",
-                  """Dim light filters in from the south. Dusty
-                passages run north and east."""),
+                  """
+                  Dim light filters in from the south. Dusty
+                  passages run north and east.
+                  """
+                  ),
 
     'overlook': Room("Grand Overlook",
-                     """A steep cliff appears before you, falling
-                into the darkness. Ahead to the north, a light flickers in
-                the distance, but there is no way across the chasm."""),
+                     """
+                     A steep cliff appears before you, falling
+                     into the darkness. Ahead to the north, a light flickers in
+                     the distance, but there is no way across the chasm.
+                     """
+                     ),
 
     'narrow': Room("Narrow Passage",
-                   """The narrow passage bends here from west
-                to north. The smell of gold permeates the air."""),
+                   """
+                   The narrow passage bends here from west
+                   to north. The smell of gold permeates the air.
+                   """
+                   ),
 
     'treasure': Room("Treasure Chamber",
-                     """You've found the long-lost treasure
-                chamber! Sadly, it has already been completely emptied by
-                earlier adventurers. The only exit is to the south."""),
+                     """
+                     You've found the long-lost treasure
+                     chamber! Sadly, it has already been completely emptied by
+                     earlier adventurers. The only exit is to the south.
+                     """
+                     ),
 }
 
 
@@ -40,6 +53,8 @@ rooms['overlook'].s_to = rooms['foyer']
 rooms['narrow'].w_to = rooms['foyer']
 rooms['narrow'].n_to = rooms['treasure']
 rooms['treasure'].s_to = rooms['narrow']
+
+# Helper code for main loop
 
 
 def clear():
@@ -59,16 +74,15 @@ instructions = (format_text("What would you like to do?")
                 + "\n")
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player(location='outside')
-room = rooms[player.location]
+player = Player(location=rooms['outside'])
 directions = ["n", "s", "e", "w"]
 
 # Initialize
 clear()
-print(room)
-# Write a loop that:
-while True:
 
+# Main loop
+while True:
+    print(player.location)
     player_input = input(instructions)
 
     if player_input is "q":
@@ -76,14 +90,15 @@ while True:
         sys.exit(0)
 
     elif player_input in directions:
-        new_room = room.move(player_input)
+        new_room = player.location.move(player_input)
         clear()
         if new_room is None:
             print("You cannot move in that direction!\n")
         else:
-            room = new_room
-        print(room)
-
+            player.location = new_room
+    else:
+        clear()
+        print("Input not recognized.\n")
 
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
