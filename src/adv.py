@@ -8,22 +8,26 @@ import platform
 
 # Declare all the rooms
 rooms = {
-    'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+    'outside': Room("Outside Cave Entrance",
+                    "North of you, the cave mount beckons"),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+    'foyer': Room("Foyer",
+                  """Dim light filters in from the south. Dusty
+                passages run north and east."""),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+    'overlook': Room("Grand Overlook",
+                     """A steep cliff appears before you, falling
+                into the darkness. Ahead to the north, a light flickers in
+                the distance, but there is no way across the chasm."""),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+    'narrow': Room("Narrow Passage",
+                   """The narrow passage bends here from west
+                to north. The smell of gold permeates the air."""),
 
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+    'treasure': Room("Treasure Chamber",
+                     """You've found the long-lost treasure
+                chamber! Sadly, it has already been completely emptied by
+                earlier adventurers. The only exit is to the south."""),
 }
 
 
@@ -45,14 +49,14 @@ def clear():
         os.system('clear')
 
 
-instructions = format_text("What would you like to do?")
-+"\n"
-+ format_text("You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n")
-+"\n"
-+ format_text("You can (l)oot the room or open your (i)nventory.")
-+"\n"
-+ format_text("You can (q)uit the game.")
-+"\n"
+instructions = (format_text("What would you like to do?")
+                + "\n"
+                + format_text("You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n")
+                + "\n"
+                + format_text("You can (l)oot the room or open your (i)nventory.")
+                + "\n"
+                + format_text("You can (q)uit the game.")
+                + "\n")
 
 # Make a new player object that is currently in the 'outside' room.
 player = Player(location='outside')
@@ -65,19 +69,19 @@ print(room, "\n")
 # Write a loop that:
 while True:
 
-    player_input = input(instructions
+    player_input = input(instructions)
 
     if player_input is "q":
         print("Goodbye!")
         sys.exit(0)
 
     elif player_input in directions:
-        new_room=room.move(player_input)
+        new_room = room.move(player_input)
         clear()
         if new_room is None:
             print("You cannot move in that direction!\n")
         else:
-            room=new_room
+            room = new_room
         print(room, "\n")
 
 
