@@ -63,15 +63,13 @@ def clear():
     else:
         os.system('clear')
 
+def print_err(text):
+    print(f"\033[91m{text}\033[00m")
 
-instructions = ("What would you like to do?"
-                + "\n"
-                + "You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n"
-                + "\n"
-                + "You can (l)oot the room or open your (i)nventory."
-                + "\n"
-                + "You can (q)uit the game."
-                + "\n")
+instructions = ("What would you like to do?\n"
+                "You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n"
+                "You can (l)oot the room or open your (i)nventory.\n"
+                "You can (q)uit the game.\n")
 
 # Make a new player object that is currently in the 'outside' room.
 player = Player(location=rooms['outside'])
@@ -93,12 +91,12 @@ while True:
         new_room = player.location.move(player_input)
         clear()
         if new_room is None:
-            print("You cannot move in that direction!\n")
+            print_err("You cannot move in that direction!\n")
         else:
             player.location = new_room
     else:
         clear()
-        print("Input not recognized.\n")
+        print_err("Command not recognized.\n")
 
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
