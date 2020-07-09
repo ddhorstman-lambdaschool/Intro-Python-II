@@ -13,7 +13,8 @@ class Room:
     def __str__(self):
         return (format_text(f"You are standing in the {self.name}")
                 + "\n"
-                + format_text(self.description))
+                + format_text(self.description)
+                + "\n")
 
     def move(self, direction):
         try:

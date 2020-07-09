@@ -65,7 +65,7 @@ directions = ["n", "s", "e", "w"]
 
 # Initialize
 clear()
-print(room, "\n")
+print(room)
 # Write a loop that:
 while True:
 
@@ -82,7 +82,7 @@ while True:
             print("You cannot move in that direction!\n")
         else:
             room = new_room
-        print(room, "\n")
+        print(room)
 
 
 # * Prints the current room name
