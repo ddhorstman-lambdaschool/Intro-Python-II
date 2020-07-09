@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 import sys
 import os
 import platform
@@ -46,27 +47,34 @@ def clear():
 # Make a new player object that is currently in the 'outside' room.
 player = Player(location='outside')
 room = rooms[player.location]
+directions = ["n", "s", "e", "w"]
+
+# Initialize
 clear()
+print(room, "\n")
 # Write a loop that:
 while True:
 
-    print(room, "\n")
     player_input = input(
-        "Would you like to travel (n)orth, (s)outh, (e)ast, or (w)est?\nYou can also (q)uit at any time.\n")
+        "What would you like to do?\n"
+        "You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n"
+        "You can (l)oot the room or open your (i)nventory.\n"
+        "You can (q)uit the game.\n"
+        )
 
     if player_input is "q":
         print("Goodbye!")
         sys.exit(0)
 
-    new_room = room.move(player_input)
-    if not new_room:
+    elif player_input in directions:
+        new_room = room.move(player_input)
         clear()
-        print("Error: Cannot move in that direction\n")
-        continue
+        if new_room is None:
+            print("You cannot move in that direction!\n")
+        else:
+            room = new_room
+        print(room, "\n")
 
-    room = new_room
-
-    clear()
 
 
 # * Prints the current room name
