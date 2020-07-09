@@ -9,7 +9,17 @@ import platform
 # Declare all the rooms
 rooms = {
     'outside': Room("Outside Cave Entrance",
-                    "North of you, the cave mount beckons"
+                    "North of you, the cave mount beckons",
+                    [
+                        Item(
+                            "Moldy stick",
+                            "It's seen better days, but it has a sharp tip that could prove useful in combat."
+                        ),
+                        Item(
+                            "Cow pie",
+                            "You really don't want to pick this up"
+                        )
+                    ]
                     ),
 
     'foyer': Room("Foyer",
@@ -84,6 +94,7 @@ clear()
 while True:
     print(player.location, "\n")
     player_input = input(instructions)
+    print("\033[F                                         ")
 
     if player_input is "q":
         print("Goodbye!")
@@ -96,6 +107,31 @@ while True:
             print_err("You cannot move in that direction!\n")
         else:
             player.location = new_room
+
+    elif player_input is "l":
+        print(player.location.items)
+        looting_input = input("\nPick up an item with 'get [item_name]'.\n"
+                              "You can also (s)top looting.\n")
+
+        while (looting_input is not "s"
+               and len(player.location.items) > 0):
+
+            if not looting_input.lower().startswith("get"):
+                print("I didn't understand that.\n")
+
+            else:
+                item_name = " ".join(looting_input.split(" ")[1:])
+                looted_item = player.location.items.remove(item_name)
+
+                if looted_item is None:
+                    print(f"Sorry, this room doesn't contain a(n) {item_name}")
+                else:
+                    player.items.add(looted_item)
+                    print(f"You picked up the {item_name}")
+            looting_input = input("You can continue looting or (s)top.\n")
+        clear()
+        print(f"You finished looting the {player.location.name}")
+
     else:
         clear()
         print_err("Command not recognized.\n")
