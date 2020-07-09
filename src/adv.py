@@ -89,7 +89,7 @@ instructions = ("What would you like to do?\n"
                 "You can (q)uit the game.\n")
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player(location=rooms['outside'])
+player = Player(location=rooms['outside'], items=[Item("Lunch","A very soggy PB&J sandwich")])
 directions = ["n", "s", "e", "w"]
 
 # Initialize
@@ -114,34 +114,66 @@ while True:
             print_confirmation(f"You moved to the {new_room.name}\n")
             player.location = new_room
 
+    elif player_input is "i":
+        if len(player.items) is 0:
+            clear()
+            print_err("Your inventory is empty\n")
+            continue
+
+        print(player.items)
+        item_input = input("\nDrop an item with 'drop [item_name]'.\n"
+                              "You can also go (b)ack.\n")
+        clear_prev_line()   
+        while (item_input is not "b"
+                and len(player.items) > 0):
+
+            if not item_input.lower().startswith("drop"):
+                print("I didn't understand that.")
+
+            else:
+                item_name = " ".join(item_input.split(" ")[1:])
+                moved_item = player.items.remove(item_name)
+
+                if moved_item is None:
+                    print(f"Sorry, you don't have {item_name}")
+                else:
+                    player.location.items.add(moved_item)
+                    print(f"You dropped up the {item_name}")
+                    if len(player.items) is 0:
+                        continue
+            item_input = input("You can continue 'drop'-ping items or go (b)ack.\n")
+            clear_prev_line()
+        clear()
+        print_confirmation(f"You closed your inventory\n")
+
     elif player_input is "l":
         if len(player.location.items) is 0:
             clear()
             print_err(f"There are no items in the {player.location.name}\n")
             continue
         print(player.location.items)
-        looting_input = input("\nPick up an item with 'get [item_name]'.\n"
-                              "You can also (s)top looting.\n")
+        item_input = input("\nPick up an item with 'get [item_name]'.\n"
+                              "You can also go (b)ack.\n")
         clear_prev_line()
 
-        while (looting_input is not "s"
+        while (item_input is not "b"
                 and len(player.location.items) > 0):
 
-            if not looting_input.lower().startswith("get"):
+            if not item_input.lower().startswith("get"):
                 print("I didn't understand that.")
 
             else:
-                item_name = " ".join(looting_input.split(" ")[1:])
-                looted_item = player.location.items.remove(item_name)
+                item_name = " ".join(item_input.split(" ")[1:])
+                moved_item = player.location.items.remove(item_name)
 
-                if looted_item is None:
+                if moved_item is None:
                     print(f"Sorry, this room doesn't contain {item_name}")
                 else:
-                    player.items.add(looted_item)
+                    player.items.add(moved_item)
                     print(f"You picked up the {item_name}")
                     if len(player.location.items) is 0:
                         continue
-            looting_input = input("You can continue 'get'-ting items or (s)top.\n")
+            item_input = input("You can continue 'get'-ting items or go (b)ack.\n")
             clear_prev_line()
         clear()
         print_confirmation(f"You finished looting the {player.location.name}\n")
