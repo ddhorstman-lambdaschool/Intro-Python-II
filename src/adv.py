@@ -22,8 +22,8 @@ rooms = {
     'overlook': Room("Grand Overlook",
                      """
                      A steep cliff appears before you, falling
-                     into the darkness. Ahead to the north, a light flickers in
-                     the distance, but there is no way across the chasm.
+                     into the darkness. Ahead to the north, a light flickers
+                     in the distance, but there is no way across the chasm.
                      """
                      ),
 
@@ -37,8 +37,8 @@ rooms = {
     'treasure': Room("Treasure Chamber",
                      """
                      You've found the long-lost treasure
-                     chamber! Sadly, it has already been completely emptied by
-                     earlier adventurers. The only exit is to the south.
+                     chamber! Sadly, it has already been completely emptied
+                     by earlier adventurers. The only exit is to the south.
                      """
                      ),
 }
@@ -64,13 +64,13 @@ def clear():
         os.system('clear')
 
 
-instructions = (format_text("What would you like to do?")
+instructions = ("What would you like to do?"
                 + "\n"
-                + format_text("You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n")
+                + "You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n"
                 + "\n"
-                + format_text("You can (l)oot the room or open your (i)nventory.")
+                + "You can (l)oot the room or open your (i)nventory."
                 + "\n"
-                + format_text("You can (q)uit the game.")
+                + "You can (q)uit the game."
                 + "\n")
 
 # Make a new player object that is currently in the 'outside' room.
