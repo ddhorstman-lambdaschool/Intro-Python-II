@@ -77,6 +77,11 @@ def clear():
 def print_err(text):
     print(f"\033[91m{text}\033[00m")
 
+def print_confirmation(text):
+    print(f"\033[92m{text}\033[00m")
+
+def clear_prev_line():
+    print("\033[F                                                  \033[F")
 
 instructions = ("What would you like to do?\n"
                 "You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n"
@@ -94,7 +99,7 @@ clear()
 while True:
     print(player.location, "\n")
     player_input = input(instructions)
-    print("\033[F                                         ")
+    clear_prev_line()
 
     if player_input is "q":
         print("Goodbye!")
@@ -106,31 +111,40 @@ while True:
         if new_room is None:
             print_err("You cannot move in that direction!\n")
         else:
+            print_confirmation(f"You moved to the {new_room.name}\n")
             player.location = new_room
 
     elif player_input is "l":
+        if len(player.location.items) is 0:
+            clear()
+            print_err(f"There are no items in the {player.location.name}\n")
+            continue
         print(player.location.items)
         looting_input = input("\nPick up an item with 'get [item_name]'.\n"
                               "You can also (s)top looting.\n")
+        clear_prev_line()
 
         while (looting_input is not "s"
-               and len(player.location.items) > 0):
+                and len(player.location.items) > 0):
 
             if not looting_input.lower().startswith("get"):
-                print("I didn't understand that.\n")
+                print("I didn't understand that.")
 
             else:
                 item_name = " ".join(looting_input.split(" ")[1:])
                 looted_item = player.location.items.remove(item_name)
 
                 if looted_item is None:
-                    print(f"Sorry, this room doesn't contain a(n) {item_name}")
+                    print(f"Sorry, this room doesn't contain {item_name}")
                 else:
                     player.items.add(looted_item)
                     print(f"You picked up the {item_name}")
-            looting_input = input("You can continue looting or (s)top.\n")
+                    if len(player.location.items) is 0:
+                        continue
+            looting_input = input("You can continue 'get'-ting items or (s)top.\n")
+            clear_prev_line()
         clear()
-        print(f"You finished looting the {player.location.name}")
+        print_confirmation(f"You finished looting the {player.location.name}\n")
 
     else:
         clear()
