@@ -77,19 +77,28 @@ def clear():
 def print_err(text):
     print(f"\033[91m{text}\033[00m")
 
+
 def print_confirmation(text):
     print(f"\033[92m{text}\033[00m")
+
+
+def print_emphasis(text):
+    print(f"\033[96m\033[04m{text}\033[00m")
+
 
 def clear_prev_line():
     print("\033[F                                                  \033[F")
 
-instructions = ("What would you like to do?\n"
-                "You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n"
-                "You can (l)oot the room or open your (i)nventory.\n"
-                "You can (q)uit the game.\n")
+
+instructions = (
+    "You can travel (n)orth, (s)outh, (e)ast, or (w)est.\n"
+    "You can (l)oot the room or open your (i)nventory.\n"
+    "You can (q)uit the game.\n"
+)
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player(location=rooms['outside'], items=[Item("Lunch","A very soggy PB&J sandwich")])
+player = Player(location=rooms['outside'], items=[
+                Item("Lunch", "A very soggy PB&J sandwich")])
 directions = ["n", "s", "e", "w"]
 
 # Initialize
@@ -98,6 +107,7 @@ clear()
 # Main loop
 while True:
     print(player.location, "\n")
+    print_emphasis("What would you like to do?")
     player_input = input(instructions)
     clear_prev_line()
 
@@ -119,11 +129,11 @@ while True:
             clear()
             print_err("Your inventory is empty\n")
             continue
-
+        print_emphasis("Inventory:")
         print(player.items)
         item_input = input("\nDrop an item with 'drop [item_name]'.\n"
-                              "You can also go (b)ack.\n")
-        clear_prev_line()   
+                           "You can also go (b)ack.\n")
+        clear_prev_line()
         while (item_input is not "b"
                 and len(player.items) > 0):
 
@@ -138,10 +148,11 @@ while True:
                     print(f"Sorry, you don't have {item_name}")
                 else:
                     player.location.items.add(moved_item)
-                    print(f"You dropped up the {item_name}")
+                    print(f"You dropped the {item_name}")
                     if len(player.items) is 0:
                         continue
-            item_input = input("You can continue 'drop'-ping items or go (b)ack.\n")
+            item_input = input(
+                "You can continue 'drop'-ping items or go (b)ack.\n")
             clear_prev_line()
         clear()
         print_confirmation(f"You closed your inventory\n")
@@ -151,9 +162,10 @@ while True:
             clear()
             print_err(f"There are no items in the {player.location.name}\n")
             continue
+        print_emphasis("Room contents:")
         print(player.location.items)
         item_input = input("\nPick up an item with 'get [item_name]'.\n"
-                              "You can also go (b)ack.\n")
+                           "You can also go (b)ack.\n")
         clear_prev_line()
 
         while (item_input is not "b"
@@ -173,10 +185,12 @@ while True:
                     print(f"You picked up the {item_name}")
                     if len(player.location.items) is 0:
                         continue
-            item_input = input("You can continue 'get'-ting items or go (b)ack.\n")
+            item_input = input(
+                "You can continue 'get'-ting items or go (b)ack.\n")
             clear_prev_line()
         clear()
-        print_confirmation(f"You finished looting the {player.location.name}\n")
+        print_confirmation(
+            f"You finished looting the {player.location.name}\n")
 
     else:
         clear()
